@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-*",
+  "testRunner": "xunit",
+  "dependencies": {
+    "Xunit": "2.2.0-beta2-build3300",
+    "System.IO.FileSystem.DriveInfo": "4.0.0",
+    "dotnet-test-Xunit": "2.2.0-preview2-build1029",
+    "DesktopSearch.Core": "1.0.0-*"
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.0"
+        }
+      }
+    }
+  },
+  //"scripts": {
+  //  "postpublish": [
+  //    "xcopy /S /TestData/* %publish:OutputPath%/TestData"
+  //  ]
+  //}
+  //"publishOptions": {
+  //  "include": [ "TestData" ]
+  //}
+}
