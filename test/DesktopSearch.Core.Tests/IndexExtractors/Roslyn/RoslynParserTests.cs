@@ -15,6 +15,7 @@ namespace CodeSearchTests.Indexing.Roslyn
     
     public class RoslynParserTests
     {
+        //TODO:  copying files into output directory does not work, therefore we need to go for fully qualified path
         private const string testDataPath = @"D:\Projects\GitHub\DesktopSearch\test\DesktopSearch.Core.Tests\TestData\IndexExtractors\Roslyn";
             //"Indexing\\Roslyn\\TestData";
 
