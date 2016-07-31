@@ -1,7 +1,3 @@
-/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
-
 using DesktopSearch.Core.DataModel;
 using System;
 using System.Collections;

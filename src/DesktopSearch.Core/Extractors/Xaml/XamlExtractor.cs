@@ -4,11 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CodeSearch.Extractors.Roslyn;
 using DesktopSearch.Core.DataModel;
 //using Lucene.Net.Documents;
 
-namespace CodeSearch.Extractors.Xaml
+namespace DesktopSearch.Core.Extractors.Xaml
 {
     class XamlExtractor : IExtractor
     {

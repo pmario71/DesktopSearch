@@ -1,4 +1,4 @@
-﻿using CodeSearch.Extractors.Roslyn;
+﻿using DesktopSearch.Core.Extractors.Roslyn;
 using Xunit;
 
 namespace CodeSearchTests.Indexing

@@ -1,8 +1,4 @@
-﻿/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
-   
-namespace CodeSearch.Extractors.Roslyn
+﻿namespace DesktopSearch.Core.Extractors.Roslyn
 {
     public static class StringExt
     {

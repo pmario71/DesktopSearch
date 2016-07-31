@@ -1,11 +1,7 @@
-/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
-
 using System.Linq;
-using CodeSearch.Extractors.Roslyn;
 using Xunit;
 using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.Extractors.Roslyn;
 
 namespace CodeSearchTests.Indexing.Roslyn
 {

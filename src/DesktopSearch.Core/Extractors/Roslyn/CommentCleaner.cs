@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace CodeSearch.Extractors.Roslyn
+namespace DesktopSearch.Core.Extractors.Roslyn
 {
     public static class CommentCleaner
     {

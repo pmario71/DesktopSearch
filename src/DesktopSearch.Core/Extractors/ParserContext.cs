@@ -1,4 +1,4 @@
-﻿namespace CodeSearch.Extractors
+﻿namespace DesktopSearch.Core.Extractors
 {
     public class ParserContext
     {

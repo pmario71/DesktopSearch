@@ -1,12 +1,12 @@
-﻿using System;
+﻿using DesktopSearch.Core.Extractors.Roslyn;
+using DesktopSearch.Core.Extractors.Xaml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CodeSearch.Extractors.Roslyn;
-using CodeSearch.Extractors.Xaml;
 
-namespace CodeSearch.Extractors
+namespace DesktopSearch.Core.Extractors
 {
     class ExtractorSelector
     {
@@ -14,7 +14,7 @@ namespace CodeSearch.Extractors
 
         static ExtractorSelector()
         {
-            Map.Add("cs", new Roslyn.RoslynExtractor());
+            Map.Add("cs", new RoslynExtractor());
             Map.Add("xaml", new XamlExtractor(new Xaml.XamlParser(new XamlParserConfiguration())));
         }
 

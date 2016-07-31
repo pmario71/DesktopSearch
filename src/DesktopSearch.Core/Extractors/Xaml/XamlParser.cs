@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace CodeSearch.Extractors.Xaml
+namespace DesktopSearch.Core.Extractors.Xaml
 {
     public class XamlParser
     {

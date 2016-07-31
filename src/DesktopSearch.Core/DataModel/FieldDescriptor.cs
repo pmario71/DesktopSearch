@@ -1,12 +1,10 @@
-/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens Healthcare GmbH/Siemens Medical Solutions USA, Inc., 2016. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
-
 using DesktopSearch.Core.DataModel;
+using Nest;
 using System;
 
 namespace DesktopSearch.Core.DataModel
 {
+    [ElasticsearchType(Name = "field")]
     public class FieldDescriptor : IDescriptor, IAPIElement
     {
         public FieldDescriptor(string name, string fieldType)
@@ -15,7 +13,9 @@ namespace DesktopSearch.Core.DataModel
             FieldType = fieldType;
         }
 
+        [String(Index = FieldIndexOption.Analyzed)]
         public string Name { get; set; }
+
         public string FieldType { get; set; }
 
         public int LineNr { get; set; }

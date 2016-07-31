@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CodeSearch.Extractors.Xaml
+namespace DesktopSearch.Core.Extractors.Xaml
 {
     public class TypeInfo
     {

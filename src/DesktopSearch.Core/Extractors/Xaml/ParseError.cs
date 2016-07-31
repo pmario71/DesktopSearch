@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeSearch.Extractors.Xaml
+namespace DesktopSearch.Core.Extractors.Xaml
 {
     public class ParseError
     {

@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CodeSearch.Extractors.Roslyn;
 using Xunit;
 using Directory = System.IO.Directory;
 using System.Reflection;
 using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.Extractors.Roslyn;
 
 namespace CodeSearchTests.Indexing.Roslyn
 {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeSearch.Extractors.Roslyn
+namespace DesktopSearch.Core.Extractors.Roslyn
 {
     class RoslynExtractor : IExtractor
     {
