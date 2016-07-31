@@ -14,7 +14,8 @@ namespace DesktopSearch.Core.Tests.Helper
 
         public static Task<InstanceDescriptor> Start(string dockerImageName, string arguments)
         {
-            return Task.Run(() =>
+            InstanceDescriptor desc = null;
+            var t = Task.Run(() =>
             {
                 string dockerInstanceName = $"{dockerImageName}Node";
 
@@ -22,7 +23,12 @@ namespace DesktopSearch.Core.Tests.Helper
                 var startcmd = Process.Start(docker, args);
                 startcmd.WaitForExit();
 
-                return new InstanceDescriptor(dockerInstanceName);
+                desc = new InstanceDescriptor(dockerInstanceName);
+            });
+            return t.ContinueWith(r => 
+            {
+                Task.Delay(2000);
+                return desc;
             });
         }
 
