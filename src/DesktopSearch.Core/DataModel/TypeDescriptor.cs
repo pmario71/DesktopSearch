@@ -2,13 +2,14 @@
    Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
    ------------------------------------------------------------------------------------------------- */
 
+using DesktopSearch.Core.DataModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 //using System.Diagnostics.Contracts;
 
-namespace CodeSearch.Extractors.Roslyn
+namespace DesktopSearch.Core.DataModel
 {
     public class TypeDescriptor : IAPIElement
     {

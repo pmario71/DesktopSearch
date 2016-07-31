@@ -1,8 +1,9 @@
-/* -------------------------------------------------------------------------------------------------
-   Restricted - Copyright (C) Siemens AG/Siemens Medical Solutions USA, Inc., 2015. All rights reserved
-   ------------------------------------------------------------------------------------------------- */
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace CodeSearch.Extractors.Roslyn
+namespace DesktopSearch.Core.DataModel
 {
     public class MethodDescriptor : IDescriptor, IAPIElement
     {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 //using System.Diagnostics.Contracts;
 using System.IO;
 using CodeSearch.Extractors.Roslyn;
+using DesktopSearch.Core.DataModel;
 
 namespace CodeSearch.Extractors
 {

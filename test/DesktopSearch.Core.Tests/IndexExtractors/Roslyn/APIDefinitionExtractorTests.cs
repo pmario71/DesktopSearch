@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CodeSearch.Extractors.Roslyn;
 using Xunit;
+using DesktopSearch.Core.DataModel;
 
 namespace CodeSearchTests.Indexing.Roslyn
 {

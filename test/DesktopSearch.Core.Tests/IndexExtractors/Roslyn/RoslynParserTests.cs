@@ -9,6 +9,7 @@ using CodeSearch.Extractors.Roslyn;
 using Xunit;
 using Directory = System.IO.Directory;
 using System.Reflection;
+using DesktopSearch.Core.DataModel;
 
 namespace CodeSearchTests.Indexing.Roslyn
 {

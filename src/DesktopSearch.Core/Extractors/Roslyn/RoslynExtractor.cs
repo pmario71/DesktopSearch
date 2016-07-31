@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DesktopSearch.Core.DataModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

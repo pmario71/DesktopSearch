@@ -1,10 +1,11 @@
 /* -------------------------------------------------------------------------------------------------
    Restricted - Copyright (C) Siemens Healthcare GmbH/Siemens Medical Solutions USA, Inc., 2016. All rights reserved
    ------------------------------------------------------------------------------------------------- */
-   
+
+using DesktopSearch.Core.DataModel;
 using System;
 
-namespace CodeSearch.Extractors.Roslyn
+namespace DesktopSearch.Core.DataModel
 {
     public class FieldDescriptor : IDescriptor, IAPIElement
     {
