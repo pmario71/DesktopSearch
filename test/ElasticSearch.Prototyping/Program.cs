@@ -11,7 +11,8 @@ namespace ElasticSearch.Prototyping
         {
 
             var test = new ElasticSearch_Indexing();
-            test.Index_CaseInsensitive();
+            //test.Index_CaseInsensitive();
+            test.Document();
 
         }
     }

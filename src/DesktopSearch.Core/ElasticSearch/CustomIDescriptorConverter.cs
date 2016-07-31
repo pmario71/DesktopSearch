@@ -40,22 +40,6 @@ namespace DesktopSearch.Core.ElasticSearch
             foreach (var item in token.Children())
             {
                 list.Add(_dictionary[item["type"].Value<int>()](item));
-
-                //switch (item["type"].Value<int>())
-                //{
-                //    case 2:
-                //        {
-                //            //var md = new MethodDescriptor(item["methodName"].Value<string>(),
-                //            //                              item["parameters"].Value<string>(),
-                //            //                              item["returnType"].Value<string>(),
-                //            //                              item["filePath"].Value<string>(),
-                //            //                              item["lineNr"].Value<int>());
-                //            //md.APIDefinition = item["aPIDefinition"].Value<API>();
-                //            var md = item.ToObject<MethodDescriptor>();
-                //            list.Add(md);
-                //            break;
-                //        }
-                //}
             }
 
             return list;
