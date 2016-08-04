@@ -16,6 +16,7 @@ namespace ElasticSearch.Prototyping
     public class ElasticSearch_Indexing
     {
         private readonly string testDataPath = @"D:\Projects\GitHub\DesktopSearch\test\DesktopSearch.Core.Tests\TestData\IndexExtractors\Roslyn\APIClass.cs";
+        const string indexName = "test_docsearch";
 
         public void Index_CaseInsensitive()
         {
@@ -92,44 +93,76 @@ namespace ElasticSearch.Prototyping
             }
         }
 
+        public void SearchOnly()
+        {
+            ConnectionSettings settings = InitializeSettings(indexName);
+            var elastic = new ElasticClient(settings);
+
+            var searchResults = elastic.Search<DocDescriptor>(x => x.Query(q => q.QueryString(q2 => q2.Query("telefon"))));
+
+            Console.WriteLine("Searching ...");
+            Console.WriteLine("-------------------------------------------");
+
+            if (searchResults.Documents.Any())
+            {
+                //searchResults.Documents.Dump();
+                var d = searchResults.Documents.First();
+
+                Console.WriteLine($"Hits: {searchResults.Hits.Count()}");
+                Console.WriteLine($"Path: {searchResults.Hits.First().Source.Path}");
+            }
+            else
+            {
+                Console.WriteLine("<no results found!>");
+            }
+            Console.ReadLine();
+        }
+
         public void Document()
         {
-            const string indexName = "test_docsearch";
-            InstanceDescriptor instance = DockerControlClient.Start("elasticsearch", "-p 9200:9200").Result;
+            bool useStatic = false;
+            string path = @"D:\Downloads\ct.15.22.126-129.pdf";
+
+            const string staticContent = "e1xydGYxXGFuc2kNCkxvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0DQpccGFyIH0=";
+            var base64Content = (useStatic) ? staticContent :  Convert.ToBase64String(File.ReadAllBytes(path));
 
             try
             {
-                var settings = new ConnectionSettings(new Uri(Configuration.ElasticSearchUri));
-
-                settings.DefaultIndex(indexName);
-                settings.DisableDirectStreaming()
-                   .OnRequestCompleted(details =>
-                {
-                    Console.WriteLine("### ES REQEUST ###");
-                    if (details.RequestBodyInBytes != null)
-                        Console.WriteLine(Encoding.UTF8.GetString(details.RequestBodyInBytes));
-                //    Console.WriteLine("### ES RESPONSE ###");
-                //    if (details.ResponseBodyInBytes != null) Console.WriteLine(Encoding.UTF8.GetString(details.ResponseBodyInBytes));
-                })
-                .PrettyJson();
+                ConnectionSettings settings = InitializeSettings(indexName);
 
                 var elastic = new ElasticClient(settings);
 
-                string path = @"D:\Downloads\ct.15.22.126-129.pdf";
                 if (!elastic.IndexExists(indexName).Exists)
                 {
-                    var indexDescriptor = new CreateIndexDescriptor(indexName)
-                        .Mappings(ms => ms
-                            .Map<DocDescriptor>(m => m.AutoMap()));
-
-                    elastic.CreateIndex(indexName, i => indexDescriptor);
-                    
-                    var doc = new DocDescriptor() { Path = path, Content = File.ReadAllBytes(path) };
-
-                    var index = elastic.Index(doc);
-
-                    Console.WriteLine(index);
+                    CreateIndex(indexName, elastic);
                 }
+                // --------------------------------------------------------------------
+                // store content
+                // --------------------------------------------------------------------
+                
+
+                var docs = new[]
+                {
+                    new DocDescriptor()
+                    {
+                        Path = "static content",
+                        Content = staticContent
+                    },
+                    new DocDescriptor()
+                    {
+                        Path = "normal text file",
+                        Content = Convert.ToBase64String(File.ReadAllBytes(@"D:\Projects\GitHub\DesktopSearch\test\ElasticSearch.Prototyping\ElasticSearch_Indexing.cs")),
+                    },
+                    new DocDescriptor()
+                    {
+                        Path = "pdf file",
+                        Content = base64Content
+                    }
+                };
+
+                var index = elastic.Bulk(b => b.IndexMany(docs));
+
+                Console.WriteLine(index);
 
                 // dump indices
                 // -----------------------------------------------
@@ -139,7 +172,7 @@ namespace ElasticSearch.Prototyping
                 // https://www.elastic.co/guide/en/elasticsearch/plugins/master/mapper-attachments-helloworld.html
 
                 //var searchResults = elastic.Search<DocDescriptor>(x => x.Query(q => q.Wildcard("path", "*")));
-                var searchResults = elastic.Search<DocDescriptor>(x => x.Query(q => q.QueryString(i => i.Query("Telefonrechnungen"))));
+                var searchResults = elastic.Search<DocDescriptor>(x => x.Query(q => q.QueryString(q2 => q2.Query("ipsum"))));
 
                 Console.WriteLine("Searching ...");
                 //Console.WriteLine($"{searchResults.DebugInformation}");
@@ -152,7 +185,7 @@ namespace ElasticSearch.Prototyping
                     //searchResults.Documents.Dump();
                     var d = searchResults.Documents.First();
 
-                    var areEqual = ByteComparer.ByteArrayCompare(d.Content, File.ReadAllBytes(path));
+                    var areEqual = string.Compare(d.Content, base64Content) == 0;
 
                     var c = Console.ForegroundColor;
                     Console.ForegroundColor = (areEqual) ? c : ConsoleColor.Red;
@@ -171,6 +204,52 @@ namespace ElasticSearch.Prototyping
             }
         }
 
+        private static ConnectionSettings InitializeSettings(string indexName)
+        {
+            var settings = new ConnectionSettings(new Uri(Configuration.ElasticSearchUri));
+
+            settings.DefaultIndex(indexName);
+            settings.DisableDirectStreaming()
+               .OnRequestCompleted(details =>
+               {
+                   Console.WriteLine("### ES REQEUST ###");
+                   if (details.RequestBodyInBytes != null)
+                       Console.WriteLine(Encoding.UTF8.GetString(details.RequestBodyInBytes));
+                   //    Console.WriteLine("### ES RESPONSE ###");
+                   //    if (details.ResponseBodyInBytes != null) Console.WriteLine(Encoding.UTF8.GetString(details.ResponseBodyInBytes));
+               })
+            .PrettyJson();
+            return settings;
+        }
+
+        private static void CreateIndex(string indexName, ElasticClient elastic)
+        {
+            // --------------------------------------------------------------------
+            // setup index
+            // --------------------------------------------------------------------
+            var indexDescriptor = new CreateIndexDescriptor(indexName);
+            //.Mappings(ms => ms
+            //    .Map<DocDescriptor>(m => 
+            //        m.AutoMap()
+            //         .f));
+            indexDescriptor.Mappings(mp => mp.Map<DocDescriptor>(m => m
+                .AutoMap()
+                .Properties(ps => ps
+                        .String(s => s
+                            .Name(f => f.Path)
+                            .Index(FieldIndexOption.Analyzed)
+                            .Store(true))
+                .Attachment(atm => atm
+                        .Name(p => p.Content)
+                        .FileField(f => f
+                                .Name(p => p.Content)
+                                .Index(FieldIndexOption.Analyzed)
+                                .Store(true)
+                                .TermVector(TermVectorOption.WithPositionsOffsets))))));
+
+            elastic.CreateIndex(indexName, i => indexDescriptor);
+        }
+
         private static void DumpIndices(ElasticClient elastic)
         {
             var stats = elastic.IndicesStats(Indices.All);
@@ -186,7 +265,7 @@ namespace ElasticSearch.Prototyping
         public string Path { get; set; }
 
         [Attachment(Store = true)]
-        public byte[] Content { get; set; }
+        public string Content { get; set; }
 
         public override string ToString()
         {

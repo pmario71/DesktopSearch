@@ -14,3 +14,4 @@
 | Comparison Solr vs. ElasticSearch                         |<http://solr-vs-elasticsearch.com/>|
 | Indexing large documents (increase max parsed characters) |<https://github.com/elastic/elasticsearch-mapper-attachments#indexed-characters>|
 | attachment mapping plugin                                 |<https://www.elastic.co/guide/en/elasticsearch/plugins/master/mapper-attachments.html>|
+| great talk about how ElasticSearch works                  |<https://youtu.be/PpX7J-G2PEo>|
