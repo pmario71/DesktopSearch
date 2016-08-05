@@ -1,4 +1,5 @@
 ﻿using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.DataModel.Code;
 using DesktopSearch.Core.Extractors.Roslyn;
 using DesktopSearch.Core.Tests.Helper;
 using ElasticSearch.Prototyping.Utils;
@@ -228,10 +229,7 @@ namespace ElasticSearch.Prototyping
             // setup index
             // --------------------------------------------------------------------
             var indexDescriptor = new CreateIndexDescriptor(indexName);
-            //.Mappings(ms => ms
-            //    .Map<DocDescriptor>(m => 
-            //        m.AutoMap()
-            //         .f));
+
             indexDescriptor.Mappings(mp => mp.Map<DocDescriptor>(m => m
                 .AutoMap()
                 .Properties(ps => ps

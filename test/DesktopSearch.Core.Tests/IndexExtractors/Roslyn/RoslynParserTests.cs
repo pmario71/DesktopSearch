@@ -10,6 +10,7 @@ using Directory = System.IO.Directory;
 using System.Reflection;
 using DesktopSearch.Core.DataModel;
 using DesktopSearch.Core.Extractors.Roslyn;
+using DesktopSearch.Core.DataModel.Code;
 
 namespace CodeSearchTests.Indexing.Roslyn
 {

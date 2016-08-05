@@ -2,7 +2,7 @@ using DesktopSearch.Core.DataModel;
 using Nest;
 using System;
 
-namespace DesktopSearch.Core.DataModel
+namespace DesktopSearch.Core.DataModel.Code
 {
     [ElasticsearchType(Name = "field")]
     public class FieldDescriptor : IDescriptor, IAPIElement

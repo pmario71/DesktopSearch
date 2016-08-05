@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "DesktopSearch.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "localhost:5000"
+    }
+  }
+}

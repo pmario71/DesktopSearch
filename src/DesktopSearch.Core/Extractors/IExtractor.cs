@@ -4,6 +4,7 @@ using System.Collections.Generic;
 //using System.Diagnostics.Contracts;
 using System.IO;
 using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.DataModel.Code;
 
 namespace DesktopSearch.Core.Extractors
 {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.DataModel.Code;
 //using Lucene.Net.Documents;
 
 namespace DesktopSearch.Core.Extractors.Xaml

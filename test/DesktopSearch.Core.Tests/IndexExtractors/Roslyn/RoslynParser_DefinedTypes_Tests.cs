@@ -2,6 +2,7 @@ using System.Linq;
 using Xunit;
 using DesktopSearch.Core.DataModel;
 using DesktopSearch.Core.Extractors.Roslyn;
+using DesktopSearch.Core.DataModel.Code;
 
 namespace CodeSearchTests.Indexing.Roslyn
 {

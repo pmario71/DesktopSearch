@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DesktopSearch.Core.DataModel
+namespace DesktopSearch.Core.DataModel.Code
 {
     public class MethodDescriptor : IDescriptor, IAPIElement
     {

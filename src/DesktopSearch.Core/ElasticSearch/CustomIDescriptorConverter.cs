@@ -1,4 +1,5 @@
 ﻿using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.DataModel.Code;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -9,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DesktopSearch.Core.ElasticSearch
 {
+    /// <summary>
+    /// Fixes Serialization issue when contract defines interfaces and JSON library cannot deserialize it back to the right type.
+    /// </summary>
     public class CustomIDescriptorConverter : CustomCreationConverter<IList<IDescriptor>>
     {
         private readonly Dictionary<int, Func<JToken, IDescriptor>> _dictionary;

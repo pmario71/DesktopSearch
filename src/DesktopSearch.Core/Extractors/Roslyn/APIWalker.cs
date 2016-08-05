@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.DataModel.Code;
 
 namespace DesktopSearch.Core.Extractors.Roslyn
 {

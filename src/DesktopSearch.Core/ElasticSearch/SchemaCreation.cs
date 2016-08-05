@@ -1,4 +1,5 @@
 ﻿using DesktopSearch.Core.DataModel;
+using DesktopSearch.Core.DataModel.Documents;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DesktopSearch.Core.ElasticSearch
 {
-    public class Schema
+    public class SchemaCreation
     {
 
 
@@ -41,6 +42,31 @@ namespace DesktopSearch.Core.ElasticSearch
             //   //.InitializeUsing(indexSettings)
             //   .AddMapping<TypeDescriptor>(m => m.MapFromAttributes())
             //   .AddMapping<MethodDescriptor>(m => m.MapFromAttributes()));
+        }
+
+        private Task<ICreateIndexResponse> CreateDocumentIndex(string indexName, ElasticClient elastic)
+        {
+            // --------------------------------------------------------------------
+            // setup index
+            // --------------------------------------------------------------------
+            var indexDescriptor = new CreateIndexDescriptor(indexName);
+
+            indexDescriptor.Mappings(mp => mp.Map<DocDescriptor>(m => m
+                .AutoMap()
+                .Properties(ps => ps
+                        .String(s => s
+                            .Name(f => f.Path)
+                            .Index(FieldIndexOption.Analyzed)
+                            .Store(true))
+                .Attachment(atm => atm
+                        .Name(p => p.Content)
+                        .FileField(f => f
+                                .Name(p => p.Content)
+                                .Index(FieldIndexOption.Analyzed)
+                                .Store(true)
+                                .TermVector(TermVectorOption.WithPositionsOffsets))))));
+
+            return elastic.CreateIndexAsync(indexName, i => indexDescriptor);
         }
 
     }

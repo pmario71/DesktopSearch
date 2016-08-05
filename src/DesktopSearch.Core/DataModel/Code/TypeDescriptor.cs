@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 //using System.Diagnostics.Contracts;
 
-namespace DesktopSearch.Core.DataModel
+namespace DesktopSearch.Core.DataModel.Code
 {
     public class TypeDescriptor : IAPIElement
     {
