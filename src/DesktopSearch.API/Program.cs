@@ -11,8 +11,8 @@ namespace DesktopSearch.API
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseKestrel()
                 .UseStartup<Startup>()
+                .UseKestrel()
                 .Build();
 
             host.Run();

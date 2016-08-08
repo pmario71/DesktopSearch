@@ -5,8 +5,21 @@ using System.Threading.Tasks;
 
 namespace DesktopSearch.Core.Configuration
 {
-    public class ElasticSearch
+    public class ElasticSearchConfig
     {
-        public const string Uri = "http://localhost:9200";
+        private string _uri = "http://localhost:9200";
+
+        public string Uri
+        {
+            get
+            {
+                return _uri;
+            }
+
+            set
+            {
+                _uri = value;
+            }
+        }
     }
 }
