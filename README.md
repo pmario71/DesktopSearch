@@ -6,14 +6,38 @@ Supports searching of documents and code using ElasticSearch.
 ## Setup
 
 **Starting ElasticSearch from docker:**\
-``` docker run -p 9200:9200 -d elasticsearch:withmapper ```
+
+```bash
+docker run -p 9200:9200 -d elasticsearch:withmapper
+```
+
+### Kibana
+
+### Marvel
+
+Add to ```ElasticSearch.yml``` to allow creation on marvel indices:
+
+```yml
+# [MP]
+# turn on auto index creation for marvel
+action.auto_create_index: .marvel-*
+```
+
+### Sense
+
+```bin\kibana plugin --install elastic/sense```
+
+Open Sense:\
+```http://localhost:5601/app/sense```
 
 ## ElasticSearch
+
 **Dumping all stored documents:**\
 <http://localhost:9200/codesearch/_search?pretty=true&q=*:*>
 
 **Simple Filtering**\
 <http://localhost:9200/codesearch/_search?pretty=true&q=firstname:mar*>
+
 - fieldname must be lowercase!
 - fieldname can be omitted, then all fields are searched
 
@@ -24,7 +48,8 @@ See for details:
 <https://github.com/elastic/elasticsearch-mapper-attachments>
 
 *Installation:*\
-``` bin/plugin install elasticsearch/elasticsearch-mapper-attachments/3.1.2 ```
+
+```bin/plugin install elasticsearch/elasticsearch-mapper-attachments/3.1.2```
 
 ### Key Aspects
 
@@ -50,10 +75,9 @@ See for details:
 
     ```
 
-2. Base64 encode content of file to be indexed
+1. Base64 encode content of file to be indexed
 
     ```c#
-
     new DocDescriptor()
     {
         Path = "normal text file",
@@ -61,10 +85,12 @@ See for details:
     }
     ```
 
-3. searching
+1. searching
 
 ```c#
+
 var searchResults = elastic.Search<DocDescriptor>(x => x.Query(q => q.QueryString(q2 => q2.Query("telefon"))));
+
 ```
 
 ## Using Repl over ElasticSearch
@@ -86,10 +112,23 @@ var elastic = new ElasticClient(settings);
 ```
 
 ## Assemblies
+
 ![Assemblies](./Documents/Images/Assemblies.png)
 
 ## DataModel
+
 ![Model Elements](./Documents/Images/DataModel.png)
 
 ## References
+
 [see References](References.md)
+
+## .net Versions & Compatibility
+
+In order to allow referencing Core data contracts from as many framework versions as possible, 
+functionality is restricted to core interactions with ElasticSearch only.
+
+See ```project.json``` of ```DesktopSearch.Core.dll```. It specifies support for .net 4.6 and .net core.
+
+* [How to reference .net core assembly from full .net](http://stackoverflow.com/questions/33810504/reference-a-net-core-library-in-a-net-4-6-project) 
+* [Reference Information regarding different .net versions](https://github.com/dotnet/corefx/blob/master/Documentation/architecture/net-platform-standard.md)

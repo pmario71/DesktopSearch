@@ -9,8 +9,29 @@
   },
 
   "frameworks": {
+    "net461": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0"
+      },
+      // package assembly after builing
+      "scripts": {
+        "postcompile": [
+          "dotnet pack --no-build --configuration Debug -o ..//..//..//packages"
+        ]
+      }
+    },
     "netstandard1.6": {
-      "imports": "dnxcore50"
+
+      "imports": [
+        //"dnxcore50"
+        "netcore50"
+      ],
+      // package assembly after builing
+      "scripts": {
+        "postcompile": [
+          "dotnet pack --no-build --configuration Debug -o ..//..//..//packages"
+        ]
+      }
     }
   }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DesktopSearch.API.Configuration
+namespace DesktopSearch.PS.Tests
 {
-    public class ElasticSearch
+    public class Class1
     {
     }
 }

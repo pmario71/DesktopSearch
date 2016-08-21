@@ -15,42 +15,44 @@ namespace DesktopSearch.Core.ElasticSearch
 {
     public class SearchService
     {
-        private ElasticSearchConfig _eleasticSearchConfig;
-
-        private AsyncLazy<ElasticClient> _elastic;
-        private RoslynParser _roslynParser = new RoslynParser();
+        private readonly ElasticSearchConfig _eleasticSearchConfig;
+        private readonly ElasticClient       _elastic;
+        private readonly RoslynParser        _roslynParser = new RoslynParser();
 
         #region CTOR
         public SearchService(ElasticSearchConfig elasticSearchConfig)
         {
             _eleasticSearchConfig = elasticSearchConfig;
 
-            _elastic = new AsyncLazy<ElasticClient>(async () =>
+            var settings = new ConnectionSettings(new Uri(_eleasticSearchConfig.Uri));
+            var elastic = new ElasticClient(settings);
+
+            var res = elastic.IndexExists(Configuration.CodeSearch.IndexName);
+            if (!res.IsValid && !res.Exists)
             {
-                var ret = await InitializeAsync();
-                return ret;
-            });
+                EnsureIndicesCreated().Wait();
+            }
+            _elastic = elastic;
         }
         #endregion
 
         #region Initialization
-        private async Task<ElasticClient> InitializeAsync()
-        {
-            var settings = new ConnectionSettings(new Uri(_eleasticSearchConfig.Uri));
-            settings.DefaultIndex(Configuration.CodeSearch.IndexName);
+        //private async Task<ElasticClient> InitializeAsync()
+        //{
+        //    var settings = new ConnectionSettings(new Uri(_eleasticSearchConfig.Uri));
+        //    settings.DefaultIndex(Configuration.CodeSearch.IndexName);
 
-            var elastic = new ElasticClient(settings);
+        //    var elastic = new ElasticClient(settings);
 
-            var res = await elastic.IndexExistsAsync(Configuration.CodeSearch.IndexName);
+        //    var res = await elastic.IndexExistsAsync(Configuration.CodeSearch.IndexName);
 
-            if (!res.IsValid && !res.Exists)
-            {
-                await EnsureIndicesCreated();
-                
-            }
+        //    if (!res.IsValid && !res.Exists)
+        //    {
+        //        await EnsureIndicesCreated();
+        //    }
 
-            return elastic;
-        }
+        //    return elastic;
+        //}
 
         private async Task EnsureIndicesCreated()
         {
@@ -60,7 +62,7 @@ namespace DesktopSearch.Core.ElasticSearch
             Task codeIndexTask = null;
             Task docIndexTask = null;
 
-            var elastic = await _elastic;
+            var elastic = _elastic;
 
             if (!elastic.IndexExists(Configuration.DocumentSearch.IndexName).Exists)
             {
@@ -106,8 +108,8 @@ namespace DesktopSearch.Core.ElasticSearch
             docDesc.Path = documentPath;
             docDesc.Content = Convert.ToBase64String(File.ReadAllBytes(documentPath));
 
-            var elastic = await _elastic;
-            var response = await elastic.IndexAsync(docDesc);
+            var elastic = _elastic;
+            var response = await elastic.IndexAsync(docDesc, s => s.Index(DocumentSearch.IndexName));
 
             if (!response.IsValid)
             {
@@ -122,14 +124,25 @@ namespace DesktopSearch.Core.ElasticSearch
                 String fileContent = await sr.ReadToEndAsync();
                 var extractedTypes = _roslynParser.ExtractTypes(fileContent);
 
-                var elastic = await _elastic;
-                var response = await elastic.IndexManyAsync(extractedTypes);
+                var elastic = _elastic;
+                var response = await elastic.IndexManyAsync(extractedTypes, CodeSearch.IndexName);
 
                 if (!response.IsValid)
                 {
                     throw new Exception($"Failed to index code file: '{codefilePath}'", response.OriginalException);
                 }
             }
+        }
+        public async Task<DocDescriptor> GetDocumentAsync(string id)
+        {
+            var result = await _elastic.SearchAsync<DocDescriptor>(t => t.Index(DocumentSearch.IndexName).Query(q => q.Term(p => p.Path, id)));
+            return result.Documents.First();
+        }
+
+        public async Task<IEnumerable<IHit<DocDescriptor>>> SearchDocumentAsync(string querystring)
+        {
+            var result = await _elastic.SearchAsync<DocDescriptor>(t => t.Index(DocumentSearch.IndexName).Query(q => q.QueryString(c => c.Query(querystring))));
+            return result.Hits;
         }
         #endregion
 

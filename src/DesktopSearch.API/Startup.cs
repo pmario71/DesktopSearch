@@ -36,6 +36,19 @@ namespace DesktopSearch.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.SingleApiVersion(new Swashbuckle.Swagger.Model.Info
+                {
+                    Title = "Values API",
+                    Version = "v1",
+                    Description = "An API API With Swagger for RC2",
+                    TermsOfService = "None"
+                });
+            });
+
             // Setup options with DI
             services.AddOptions();
 
@@ -43,49 +56,33 @@ namespace DesktopSearch.API
             //services.Configure<ElasticSearchConfig>(_configuration.GetSection("ElasticSearch"));
             //services.Configure<ElasticSearchConfig>(t => t. this.Configuration.GetSection("ElasticSearch"));
 
-            services.AddMvcCore();
-            //services.AddSwaggerGen();
-            //services.ConfigureSwaggerGen(options =>
-            //{
-            //    options.SingleApiVersion(new Swashbuckle.Swagger.Model.Info
-            //    {
-            //        Version = "v1",
-            //        Title = "Desktop Search API",
-            //        Description = "A simple api to search using Elasticsearch",
-            //        TermsOfService = "None"
-            //    });
-            //    //options.IncludeXmlComments(pathToDoc);
-            //    options.DescribeAllEnumsAsStrings();
-            //});
+            services.AddMvc();
 
             //todo: switch to options later
-            services.AddSingleton<ElasticSearchConfig>(p => new ElasticSearchConfig { Uri="localhost:9200" });
+            services.AddSingleton<ElasticSearchConfig>(p => new ElasticSearchConfig());
             services.AddTransient<SearchService>();
-            
-            // Add our repository type
-            services.AddSingleton<TodoApi.Models.ITodoRepository, TodoApi.Models.TodoRepository>();
-
-
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory log)
         {
             log.AddConsole(_configuration.GetSection("Logging"));
             log.AddDebug();
-            //app.UseMvc();
+
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine($"Handling request: {context.Request}");
+                await next.Invoke();
+                Console.WriteLine("Finished handling request.");
+            });
+
             app.UseMvc();
-
-            //app.UseSwagger();
-            //app.UseSwaggerUi();
-
-            //var routeBuilder = new RouteBuilder(app);
-            ////{ controller}/{ action}/{ id ?}
-            //routeBuilder.MapRoute("", "{controller}/");
 
             if (env.IsDevelopment())
             {
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
             //app.Run(context =>
             //{
             //    return context.Response.WriteAsync("Hello from ASP.NET Core!");

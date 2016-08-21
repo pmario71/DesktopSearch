@@ -10,11 +10,13 @@ namespace DesktopSearch.Core.DataModel.Documents
     {
         public string Path { get; set; }
 
+        public DateTime LastModified { get; set; }
+
         public string Content { get; set; }
 
         public override string ToString()
         {
-            return $"{Path}  --  {Content.Length}";
+            return $"{Path} -- {LastModified} --  {Content.Length}";
         }
     }
 }
