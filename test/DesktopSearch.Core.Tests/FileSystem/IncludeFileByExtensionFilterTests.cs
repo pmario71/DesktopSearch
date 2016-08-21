@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CodeSearchTests.Indexing
+namespace DesktopSearch.Core.FileSystem
 {
-    public class FileFilterTests
+    public class IncludeFileByExtensionFilterTests
     {
 
         [Theory]
@@ -20,7 +20,8 @@ namespace CodeSearchTests.Indexing
         {
             var files = new[] {file};
 
-            var result = FileFilter.FilterByExtension(files);
+            var sut = new IncludeFileByExtensionFilter("cs");
+            var result = sut.FilterByExtension(files);
             
             //CollectionAssert.Equal(files, result, StringComparer.OrdinalIgnoreCase);
             Assert.True(files.SequenceEqual(result));
@@ -34,7 +35,8 @@ namespace CodeSearchTests.Indexing
         [InlineData("Test.fds", false)]
         public void FilterByExtension_over_single_value(string file, bool expectedResult)
         {
-            Assert.Equal(expectedResult, FileFilter.FilterByExtension(file));
+            var sut = new IncludeFileByExtensionFilter("cs");
+            Assert.Equal(expectedResult, sut.FilterByExtension(file));
         }
     }
 }

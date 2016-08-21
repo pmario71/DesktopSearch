@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-*",
+  "version": "1.0.1-*",
 
   "dependencies": {
     "Microsoft.CodeAnalysis.Analyzers": "1.1.0",
@@ -14,11 +14,11 @@
         "System.Xml": "4.0.0.0"
       },
       // package assembly after builing
-      "scripts": {
-        "postcompile": [
-          "dotnet pack --no-build --configuration Debug -o ..//..//..//packages"
-        ]
-      }
+      //"scripts": {
+      //  "postcompile": [
+      //    "dotnet pack --no-build --configuration Debug -o ..//..//..//packages"
+      //  ]
+      //}
     },
     "netstandard1.6": {
 
@@ -27,11 +27,11 @@
         "netcore50"
       ],
       // package assembly after builing
-      "scripts": {
-        "postcompile": [
-          "dotnet pack --no-build --configuration Debug -o ..//..//..//packages"
-        ]
-      }
+      //"scripts": {
+      //  "postcompile": [
+      //    "dotnet pack --no-build --configuration Debug -o ..//..//..//packages"
+      //  ]
+      //}
     }
   }
 }
