@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 
 namespace DesktopSearch.PS.Configuration
@@ -9,6 +10,7 @@ namespace DesktopSearch.PS.Configuration
         Stream GetReadableStream();
     }
 
+    [Export(typeof(IStreamFactory))]
     public class FileStreamFactory : IStreamFactory
     {
         private const string _settingsFile = "appsettings.json";

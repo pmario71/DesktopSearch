@@ -63,6 +63,10 @@ namespace DesktopSearch.PS
             catch(Exception ex)
             {
                 WriteWarning($"Recovering from error loading configuration: {ex.Message}");
+                _settings = new Settings()
+                {
+                    FoldersToIndex = new FoldersToIndex()
+                };
                 _folders = new List<Folder>();
             }
         }
@@ -87,6 +91,7 @@ namespace DesktopSearch.PS
 
         protected override void EndProcessing()
         {
+            _settings.FoldersToIndex.Folders = _folders.ToArray();
             ConfigAccess.SaveChanges(_settings);
         }
     }

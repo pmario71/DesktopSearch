@@ -97,7 +97,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PowershellExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PowershellExtensions.0.6.0\lib\net451\PowershellExtensions.dll</HintPath>
+      <HintPath>..\..\packages\PowershellExtensions.0.7.0\lib\net451\PowershellExtensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -221,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddDSFoldersToIndexCmdlet.cs" />
+    <Compile Include="Composition\Host.cs" />
     <Compile Include="Configuration\IStreamFactory.cs" />
     <Compile Include="DSFoldersToIndexJSONCmdlet.cs" />
     <Compile Include="GetDSFoldersToIndexCmdlet.cs" />

@@ -7,15 +7,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.Composition;
 
 namespace DesktopSearch.PS.Configuration
 {
+    [Export]
     internal class ConfigAccess
     {
         private static JsonSerializerSettings _formatSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented };
 
         private IStreamFactory _factory;
 
+        [ImportingConstructor]
         public ConfigAccess(IStreamFactory factory)
         {
             _factory = factory;
@@ -59,11 +62,14 @@ namespace DesktopSearch.PS.Configuration
             return serialized;
         }
 
-        public void SaveChanges(Settings o)
+        public void SaveChanges(Settings settings)
         {
+            if (settings == null)
+                throw new ArgumentNullException(nameof(settings));
+
             var serialized =
             JsonConvert.SerializeObject(
-                o,
+                settings,
                 _formatSettings);
 
             using (var sw = new StreamWriter(_factory.GetWritableStream()))
