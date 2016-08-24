@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,18 +6,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.Composition;
 
-namespace DesktopSearch.PS.Configuration
+namespace DesktopSearch.Core.Configuration
 {
-    [Export]
-    internal class ConfigAccess
+    public class ConfigAccess
     {
         private static JsonSerializerSettings _formatSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented };
 
         private IStreamFactory _factory;
 
-        [ImportingConstructor]
         public ConfigAccess(IStreamFactory factory)
         {
             _factory = factory;
@@ -49,8 +45,8 @@ namespace DesktopSearch.PS.Configuration
             {
                 Folders = new[]
                 {
-                    new Folder { Path="c:\\temp", ExcludedExtensions=new[] { "txt" } },
-                    new Folder { Path="c:\\temp", IncludedExtensions=new[] { "cs" } }
+                    new Folder { Path="c:\\temp", IndexingType = "Code" },
+                    new Folder { Path="c:\\temp", IndexingType = "Documents" }
                 }
             };
 
@@ -79,22 +75,5 @@ namespace DesktopSearch.PS.Configuration
         }
     }
 
-    public class Settings
-    {
-        public FoldersToIndex FoldersToIndex { get; set; }
-    }
-
-    public class FoldersToIndex
-    {
-        public Folder[] Folders { get; set; }
-    }
-
-    public class Folder
-    {
-        public string Path { get; set; }
-
-        public string[] ExcludedExtensions { get; set; }
-
-        public string[] IncludedExtensions { get; set; }
-    }
+    
 }

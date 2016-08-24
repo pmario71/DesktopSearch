@@ -1,4 +1,4 @@
-﻿using DesktopSearch.PS.Configuration;
+﻿using DesktopSearch.Core.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DesktopSearch.PS
 {
-    [Cmdlet(VerbsCommon.Get, "DSFoldersToIndexJSON", DefaultParameterSetName = "All")]
-    public class DSFoldersToIndexJSONCmdlet : PSCmdlet
+    [Cmdlet(VerbsCommon.Get, "DSSettingJSON", DefaultParameterSetName = "All")]
+    public class DSSettingJSONCmdlet : PSCmdlet
     {
         protected override void ProcessRecord()
         {

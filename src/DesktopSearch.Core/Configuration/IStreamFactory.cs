@@ -1,16 +1,17 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.IO;
 
-namespace DesktopSearch.PS.Configuration
+namespace DesktopSearch.Core.Configuration
 {
+    /// <summary>
+    /// Extension interface to allow testing <see cref="ConfigAccess"/> without filesystem.
+    /// </summary>
     public interface IStreamFactory
     {
         Stream GetWritableStream();
         Stream GetReadableStream();
     }
 
-    [Export(typeof(IStreamFactory))]
     public class FileStreamFactory : IStreamFactory
     {
         private const string _settingsFile = "appsettings.json";

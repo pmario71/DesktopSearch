@@ -202,7 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddDSFoldersToIndexCmdletTests.cs" />
-    <Compile Include="Configuration\ConfigAccessTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

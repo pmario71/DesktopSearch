@@ -6,7 +6,7 @@
     "System.IO.FileSystem.DriveInfo": "4.0.0",
     "dotnet-test-Xunit": "2.2.0-preview2-build1029",
     "Docker.DotNet": "2.124.1",
-    "DesktopSearch.Core": "1.0.0-*"
+    "DesktopSearch.Core": "1.0.3-*"
   },
   "frameworks": {
     "netcoreapp1.0": {

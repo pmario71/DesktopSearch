@@ -1,4 +1,4 @@
-﻿using DesktopSearch.PS.Configuration;
+﻿using DesktopSearch.Core.Configuration;
 using PowershellExtensions;
 using System;
 using System.Collections.Generic;
@@ -10,19 +10,28 @@ using System.Threading.Tasks;
 
 namespace DesktopSearch.PS
 {
-    [Cmdlet(VerbsCommon.Get, "DSFoldersToIndex", DefaultParameterSetName = "All")]
-    public class GetDSFoldersToIndexCmdlet : PSCmdlet
+    [Cmdlet(VerbsData.Sync, "DSIndex")]
+    public class SyncDSIndexCmdlet : PSCmdlet
     {
+        [Parameter(Mandatory = false, HelpMessage = "Folder(s) to sync.")]
+        public string[] Folder { get; set; }
+
+
         #region Dependencies
+
         [Import]
         internal ConfigAccess ConfigAccess { set; get; }
+
         #endregion
+
+        protected override void BeginProcessing()
+        {
+            this.Compose();
+        }
 
         protected override void ProcessRecord()
         {
-            this.Compose();
-
-            WriteObject(ConfigAccess.Get());
+            
         }
     }
 }
