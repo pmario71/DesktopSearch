@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DesktopSearch.Core.Utils
+namespace DesktopSearch.Core.Utils.Async
 {
     /// <summary>Provides a pump that supports running asynchronous methods on the current thread.</summary>
     public static class AsyncPump

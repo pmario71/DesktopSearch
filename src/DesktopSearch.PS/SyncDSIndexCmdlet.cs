@@ -1,4 +1,6 @@
-﻿using DesktopSearch.Core.Configuration;
+﻿using DesktopSearch.Core;
+using DesktopSearch.Core.Configuration;
+using DesktopSearch.PS.Utils;
 using PowershellExtensions;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,9 @@ namespace DesktopSearch.PS
         [Import]
         internal ConfigAccess ConfigAccess { set; get; }
 
+        [Import]
+        public FolderProcessorFactory FolderProcessorFactory { get; set; }
+
         #endregion
 
         protected override void BeginProcessing()
@@ -46,10 +51,26 @@ namespace DesktopSearch.PS
                 foldersToSync.AddRange(_config.FoldersToIndex.Folders);
             }
 
-            foreach (var folder in foldersToSync)
+            AsyncPump.Run(async () =>
             {
+                var progress = new ProgressRecord(1, "Synching Index", "Folder");
+                Action<int> progressCallback = p => 
+                {
+                    progress.PercentComplete = p;
+                    WriteProgress(progress);
+                };
 
-            }
+                var aggregator = new DesktopSearch.Core.Utils.Async.AggregatingProgressReporter(progressCallback);
+
+                foreach (var folder in foldersToSync)
+                {
+                    var processor = FolderProcessorFactory.GetProcessorByFolder(folder);
+
+                    IProgress<int> pc = aggregator.CreateClient();
+
+                    await processor.Process(pc);
+                }
+            });
         }
 
         private void MapPathsToConfiguredFolders(List<Folder> foldersToSync, IEnumerable<string> paths)

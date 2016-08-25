@@ -5,7 +5,7 @@
   },
 
   "dependencies": {
-    "DesktopSearch.Core": "1.0.0-*",
+    "DesktopSearch.Core": "1.0.2-*",
     "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
     "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0",
     "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0",

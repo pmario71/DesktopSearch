@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace DesktopSearch.Core.Utils
+namespace DesktopSearch.Core.Utils.Async
 {
     /// <summary>
     /// Provides support for asynchronous lazy initialization. This type is fully threadsafe.

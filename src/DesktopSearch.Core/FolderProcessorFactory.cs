@@ -14,12 +14,15 @@ namespace DesktopSearch.Core
             { "Documents" , typeof(DocumentFolderProcessor) },
         };
 
-        public IFolderProcessor GetProcessorByFolderType(string indexingTypeName)
+        public IFolderProcessor GetProcessorByFolder(Folder folder)
         {
+            if (folder == null)
+                throw new ArgumentNullException("folder");
+
             Type folderProcessorType;
-            if (!_map.TryGetValue(indexingTypeName, out folderProcessorType))
+            if (!_map.TryGetValue(folder.IndexingType, out folderProcessorType))
             {
-                throw new ArgumentOutOfRangeException("indexingTypeName", $"'{indexingTypeName}' is unknown!");
+                throw new ArgumentOutOfRangeException("indexingTypeName", $"'{folder.IndexingType}' is unknown!");
             }
 
             return (IFolderProcessor)Activator.CreateInstance(folderProcessorType);
@@ -29,13 +32,34 @@ namespace DesktopSearch.Core
 
     internal class DocumentFolderProcessor : IFolderProcessor
     {
+        public Task Process()
+        {
+            return Process(null);
+        }
+
+        public Task Process(IProgress<int> progress)
+        {
+            return null;
+        }
     }
 
     internal class CodeFolderProcessor : IFolderProcessor
     {
+        public Task Process()
+        {
+            return Process(null);
+        }
+
+        public Task Process(IProgress<int> progress)
+        {
+            return null;
+        }
     }
 
     public interface IFolderProcessor
     {
+        Task Process();
+
+        Task Process(IProgress<int> progress);
     }
 }
