@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DesktopSearch.Core.Extractors
 {
-    class ExtractorSelector
+    class CodeExtractorSelector
     {
         static readonly Dictionary<string,IExtractor> Map = new Dictionary<string, IExtractor>(StringComparer.OrdinalIgnoreCase);
 
-        static ExtractorSelector()
+        static CodeExtractorSelector()
         {
             Map.Add("cs", new RoslynExtractor());
             Map.Add("xaml", new XamlExtractor(new Xaml.XamlParser(new XamlParserConfiguration())));
