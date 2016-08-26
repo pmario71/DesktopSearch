@@ -50,7 +50,8 @@ namespace DesktopSearch.Core.Utils.Async
                 _progress[id] = value;
 
                 // calc aggregated progress value
-                int aggregatedValue = (int)((double)_progress.Aggregate((agg, v) => agg + v)/_progress.Count);
+                double sum = (double)_progress.Sum();
+                int aggregatedValue = (int)(sum/_progress.Count);
 
                 _progressReportCallback(aggregatedValue);
             }, null);
