@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DesktopSearch.Core.Configuration;
+using DesktopSearch.Core.Processors;
 
 namespace DesktopSearch.Core
 {
@@ -25,35 +26,10 @@ namespace DesktopSearch.Core
                 throw new ArgumentOutOfRangeException("indexingTypeName", $"'{folder.IndexingType}' is unknown!");
             }
 
-            return (IFolderProcessor)Activator.CreateInstance(folderProcessorType);
+            //TODO: use dependency injection to create processors, folder needs to be injected differently
+            return (IFolderProcessor)Activator.CreateInstance(folderProcessorType, folder);
         }
 
-    }
-
-    internal class DocumentFolderProcessor : IFolderProcessor
-    {
-        public Task Process()
-        {
-            return Process(null);
-        }
-
-        public Task Process(IProgress<int> progress)
-        {
-            return null;
-        }
-    }
-
-    internal class CodeFolderProcessor : IFolderProcessor
-    {
-        public Task Process()
-        {
-            return Process(null);
-        }
-
-        public Task Process(IProgress<int> progress)
-        {
-            return null;
-        }
     }
 
     public interface IFolderProcessor
