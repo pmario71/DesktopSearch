@@ -15,25 +15,23 @@ namespace DesktopSearch.Core.Processors
 {
     internal class CodeFolderProcessor : IFolderProcessor
     {
-        private ElasticClient _elasticClient;
-        private Folder _folder;
+        private IElasticClient _elasticClient;
 
-        public CodeFolderProcessor(Folder folder, ElasticClient elasticClient)
+        public CodeFolderProcessor(IElasticClient elasticClient)
         {
-            _folder = folder;
             _elasticClient = elasticClient;
         }
 
-        public Task Process()
+        public Task Process(Folder folder)
         {
-            return Process(null);
+            return Process(folder, null);
         }
 
-        public Task Process(IProgress<int> progress)
+        public Task Process(Folder folder, IProgress<int> progress)
         {
             var extensionFilter = new IncludeFileByExtensionFilter(".cs", ".xaml");
 
-            var filesToProcess = Directory.GetFiles(_folder.Path, "*", SearchOption.AllDirectories)
+            var filesToProcess = Directory.GetFiles(folder.Path, "*", SearchOption.AllDirectories)
                                           .Where(f => extensionFilter.FilterByExtension(f));
 
             return ExtractFilesAsync(filesToProcess, progress);

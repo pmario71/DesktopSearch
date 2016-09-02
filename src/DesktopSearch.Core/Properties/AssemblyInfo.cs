@@ -18,3 +18,6 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("a37c3908-ce63-4b47-a4bc-9635d1ceef8c")]
 [assembly: InternalsVisibleTo("DesktopSearch.Core.Tests")]
+
+// to allow mocking by moq
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

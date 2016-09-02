@@ -34,8 +34,8 @@ namespace DesktopSearch.Core
 
     public interface IFolderProcessor
     {
-        Task Process();
+        Task Process(Folder folder);
 
-        Task Process(IProgress<int> progress);
+        Task Process(Folder folder, IProgress<int> progress);
     }
 }
