@@ -12,15 +12,15 @@ using Microsoft.Extensions.Logging;
 
 namespace DesktopSearch.Core.Processors
 {
-    internal class DocumentFolderProcessor : IFolderProcessor
+    public class DocumentFolderProcessor : IFolderProcessor
     {
         private IElasticClient _client;
         private ILogger<DocumentFolderProcessor> _logging;
 
-        public DocumentFolderProcessor(IElasticClient client, ILogger<DocumentFolderProcessor> logging)
+        public DocumentFolderProcessor(IElasticClient client)//, ILogger<DocumentFolderProcessor> logging)
         {
             _client = client;
-            _logging = logging;
+            //_logging = logging;
         }
 
         public Task Process(Folder folder)
@@ -62,7 +62,7 @@ namespace DesktopSearch.Core.Processors
                 else
                 {
                     stopWatch.Stop();
-                    _logging.LogInformation($"Adding '{Path.GetFileName(filePath)}' to index  took: {stopWatch.Elapsed.TotalSeconds} [s]");
+                    //_logging.LogInformation($"Adding '{Path.GetFileName(filePath)}' to index  took: {stopWatch.Elapsed.TotalSeconds} [s]");
                 }
 
                 ++current;

@@ -117,6 +117,8 @@ var elastic = new ElasticClient(settings);
 
 ## DataModel
 
+### Code Search
+
 ![Model Elements](./Documents/Images/DataModel.png)
 
 ## References

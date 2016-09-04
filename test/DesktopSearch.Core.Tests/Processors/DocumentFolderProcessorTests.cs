@@ -20,13 +20,7 @@ namespace DesktopSearch.Core.Tests.Processors
         {
             foreach (var folder in _foldersCreated)
             {
-                try
-                {
-                    Directory.Delete(folder, true);
-                }
-                catch (Exception)
-                {
-                }
+                Directory.Delete(folder, true);
             }
         }
 
@@ -40,7 +34,7 @@ namespace DesktopSearch.Core.Tests.Processors
             string folder = CreateTestFolder();
 
 
-            var sut = new DocumentFolderProcessor(client.Object, logging.Object);
+            var sut = new DocumentFolderProcessor(client.Object/*, logging.Object*/);
 
             Configuration.Folder cfgFolder = new Configuration.Folder { IndexingType ="", Path=folder };
             sut.Process(cfgFolder);
@@ -65,7 +59,7 @@ namespace DesktopSearch.Core.Tests.Processors
                 .Returns(Task.FromResult(result.Object));
 
 
-            var sut = new DocumentFolderProcessor(client.Object, logging.Object);
+            var sut = new DocumentFolderProcessor(client.Object/*, logging.Object*/);
 
             Configuration.Folder cfgFolder = new Configuration.Folder { IndexingType = "", Path = folder };
             await sut.Process(cfgFolder);

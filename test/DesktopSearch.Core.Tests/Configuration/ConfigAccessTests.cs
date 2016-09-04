@@ -14,7 +14,7 @@ namespace DesktopSearch.PS.Tests.Configuration
     {
 
         [Fact]
-        public void SerializeDeserializeTest()
+        public void NullValueHandling_for_ElasticSearchURI_Test()
         {
             Settings settings = new Settings
             {
@@ -36,7 +36,52 @@ namespace DesktopSearch.PS.Tests.Configuration
 
             var sr = new StreamReader(strm);
             var s = sr.ReadToEnd();
-            
+
+            // check that stream does not contain serialized 
+            Assert.DoesNotContain(s, "localhost");
+
+            strm.Position = 0;
+
+            var result = sut.Get();
+
+            Assert.Equal(settings.FoldersToIndex.Folders[0].Path, result.FoldersToIndex.Folders[0].Path);
+
+            //var c = new KellermanSoftware.CompareNetObjects.CompareLogic();
+            //var compareResult = c.Compare(settings, result);
+
+            //if (!compareResult.AreEqual)
+            //{
+            //    Trace.TraceInformation(compareResult.DifferencesString);
+            //}
+
+            //Assert.True(compareResult.AreEqual, compareResult.DifferencesString);
+        }
+
+        [Fact]
+        public void SerializeDeserializeTest()
+        {
+            Settings settings = new Settings
+            {
+                ElasticSearchUri = new Uri("http://test.com:1234"),
+                FoldersToIndex = new FoldersToIndex
+                {
+                    Folders = new[]
+                    {
+                        new Folder{ Path = "d:\\temp", IndexingType="Code" }
+                    }
+                }
+            };
+
+            var strm = new MemoryStreamEx();
+            var sut = new ConfigAccess(new TestFactory(strm));
+
+            sut.SaveChanges(settings);
+
+            strm.Position = 0;
+
+            var sr = new StreamReader(strm);
+            var s = sr.ReadToEnd();
+
             strm.Position = 0;
 
             var result = sut.Get();

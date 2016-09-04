@@ -9,6 +9,31 @@ namespace DesktopSearch.Core.Configuration
 {
     public class Settings
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private Uri _elasticSearchUri;
+
+        [JsonIgnore]
+        public Uri ElasticSearchUri
+        {
+            get
+            {
+                if (_elasticSearchUri == null)
+                {
+                    return new Uri("http://localhost:9200");
+                }
+                return _elasticSearchUri;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Null value not cannot be specified as ElasticSearchUri!");
+                if (value.Port <= 0)
+                    throw new ArgumentException($"No valid port specified: {value}!");
+
+                _elasticSearchUri = value;
+            }
+        }
+
         public FoldersToIndex FoldersToIndex { get; set; }
     }
 

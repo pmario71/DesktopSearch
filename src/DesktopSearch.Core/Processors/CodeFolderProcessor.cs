@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DesktopSearch.Core.Processors
 {
-    internal class CodeFolderProcessor : IFolderProcessor
+    public class CodeFolderProcessor : IFolderProcessor
     {
         private IElasticClient _elasticClient;
 

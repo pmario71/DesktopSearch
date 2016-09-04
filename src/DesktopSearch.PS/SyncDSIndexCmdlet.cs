@@ -68,7 +68,7 @@ namespace DesktopSearch.PS
 
                     IProgress<int> pc = aggregator.CreateClient();
 
-                    await processor.Process(pc);
+                    await processor.Process(folder, pc);
                 }
             });
         }

@@ -13,3 +13,19 @@ Takes the contents of e.g. a files and extracts relevant index information using
 ### DocumentFolderProcessor
 Takes the contents of e.g. a files and sends it to ElasticSearch directly so that it is processed by Tika
 
+## Configuration
+
+Configuration is read from json file located in installation folder. To get acces use:
+
+```cs
+
+[Import]
+internal ConfigAccess ConfigAccess { set; get; }
+...
+Settings settings = ConfigAccess.Get();
+
+```
+
+### Adding Configuration
+
+

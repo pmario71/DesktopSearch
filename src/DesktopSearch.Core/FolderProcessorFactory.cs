@@ -9,11 +9,18 @@ namespace DesktopSearch.Core
 {
     public class FolderProcessorFactory
     {
+        private readonly IContainer _container;
+
         private Dictionary<string, Type> _map = new Dictionary<string, Type>()
         {
             { "Code"      , typeof(CodeFolderProcessor) },
             { "Documents" , typeof(DocumentFolderProcessor) },
         };
+
+        public FolderProcessorFactory(IContainer container)
+        {
+            _container = container;
+        }
 
         public IFolderProcessor GetProcessorByFolder(Folder folder)
         {
@@ -26,8 +33,7 @@ namespace DesktopSearch.Core
                 throw new ArgumentOutOfRangeException("indexingTypeName", $"'{folder.IndexingType}' is unknown!");
             }
 
-            //TODO: use dependency injection to create processors, folder needs to be injected differently
-            return (IFolderProcessor)Activator.CreateInstance(folderProcessorType, folder);
+            return (IFolderProcessor)_container.GetService(folderProcessorType);
         }
 
     }
@@ -37,5 +43,10 @@ namespace DesktopSearch.Core
         Task Process(Folder folder);
 
         Task Process(Folder folder, IProgress<int> progress);
+    }
+
+    public interface IContainer
+    {
+        object GetService(Type type);
     }
 }
